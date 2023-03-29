@@ -1,6 +1,7 @@
 package application.Enum;
 
 public enum TransactionMessages {
+
     PAYEE_NOT_FOUND("Payee account number is incorrect"),
     RECIPIENT_NOT_FOUND("Recipient account number is incorrect"),
     INSUFFICIENT_AMOUNT("Insufficient amount in account"),

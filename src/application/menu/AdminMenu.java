@@ -1,10 +1,10 @@
 package application.menu;
 
-import application.Enum.AdminMenu.AdminMenuOption;
-import application.Enum.AdminMenu.DisplayDBOption;
+import application.Enum.adminMenu.AdminMenuOption;
+import application.Enum.adminMenu.DisplayDBOption;
 import application.model.AdminDBManager;
 import application.utilities.Colors;
-import application.Enum.AdminMenu.UpdateDBOption;
+import application.Enum.adminMenu.UpdateDBOption;
 import application.Enum.BusType;
 import application.utilities.InputValidator;
 
@@ -94,7 +94,7 @@ class DBUpdater{
         Display.printTitle("Adding New Route");
 
         LinkedHashMap<String,Integer> routeList = new LinkedHashMap<>();//To store user stop inputs
-        String route = helper.getRoute(false);//Structure Input
+        String route = helper.getRoute();
         if(route.equalsIgnoreCase("Q")) return;
 
 //      Used for getting loop count
@@ -392,7 +392,7 @@ class DBUpdater{
     }
 
     void changeConductor() {
-        Display.printTitle("Change ConductorDBManager");
+        Display.printTitle("Change Conductor");
 
         Set<String> availableConductors = adminDBManager.getAvailableConductorList();
 
@@ -412,7 +412,7 @@ class DBUpdater{
             return;
         }
 
-        System.out.println("\n Registration number  RouteCode   ConductorDBManager ID         Start Time    End Time     Frequency\n");
+        System.out.println("\n Registration number  RouteCode   Conductor ID         Start Time    End Time     Frequency\n");
         int count = 1;
         if (!availableBuses.isEmpty()) {
             System.out.println("Available Buses:");
@@ -488,7 +488,7 @@ class AdminMenuHelper {
         this.adminManager = adminManager;
     }
 
-    String getRoute(boolean flag) {
+    String getRoute() {
 
         Set<String> existingRoutes = adminManager.getRoutesCodes();
         String input;
@@ -514,10 +514,7 @@ class AdminMenuHelper {
                 continue;
             }
 
-            if (!existingRoutes.contains(input) && flag) {
-                System.out.println(Colors.formatRed("\nroute code does not exists"));
-                continue;
-            } else if (existingRoutes.contains(input) && !flag) {
+            if (existingRoutes.contains(input)) {
                 System.out.println(Colors.formatRed("\nroute code already exists"));
                 continue;
             }
@@ -565,7 +562,7 @@ class AdminMenuHelper {
     }
 
     void displayBus(){
-        System.out.println("\n  Registration number  RouteCode   ConductorDBManager ID         Start Time    End Time     Frequency\n");
+        System.out.println("\n  Registration number  RouteCode   Conductor ID         Start Time    End Time     Frequency\n");
         Set<String> availableBuses = adminManager.getAvailableBusList();
         System.out.println("Allotted Buses:\n");
         if(availableBuses.isEmpty()){

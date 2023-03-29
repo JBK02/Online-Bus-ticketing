@@ -13,8 +13,6 @@ import java.util.Map;
 
 final class CredentialManager {
 
-    static CredentialDB credentialDB = CredentialDB.getInstance();
-
 
     static boolean validateClientCredential(String userName,String password, UserType user) throws NoSuchAlgorithmException{
 
@@ -54,9 +52,9 @@ final class CredentialManager {
     private static Map<String, Byte[]> getUserDB(@NotNull UserType user){
 
         return  switch(user) {
-            case ADMIN -> credentialDB.getAdminCredentials();
-            case CLIENT -> credentialDB.getClientCredentials();
-            case CONDUCTOR -> credentialDB.getConductorCredentials();
+            case ADMIN -> CredentialDB.adminCredentials;
+            case CLIENT -> CredentialDB.clientCredentials;
+            case CONDUCTOR -> CredentialDB.conductorCredentials;
         };
     }
 
@@ -76,7 +74,6 @@ final class CredentialManager {
             bytes[index++] = value;
         }
         return bytes;
-
 
     }
 

@@ -1,24 +1,23 @@
 package application.model;
 
-import application.model.Path;
 import application.utilities.DateFormatter;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Plan {
     public final String ID;
     public final double cost;
-    public final List<DayOfWeek> weekDays;
+    public final  List<DayOfWeek> weekDays;
     public final int repeatCount;
     private final Map<String,Boolean> dateValidity;
     public final Map<String,List<Path>> pathMap;
     public final LocalDateTime purchaseTimeStamp;
 
+    /**
+     * For Custom Plan
+     */
     public Plan(String ID,List<Path> pathList, double cost, List<DayOfWeek> weekDays, int repeatCount) {
         this.ID = ID;
         this.cost = cost;
@@ -31,7 +30,7 @@ public class Plan {
 
         LocalDateTime now = LocalDateTime.now();
 
-        for(int count = 0; count < repeatCount;){
+        for(int count = 0; count < repeatCount; count++){
             now = now.plusDays(1);
 
             if(weekDays.contains(DayOfWeek.from(now))) {
@@ -41,8 +40,64 @@ public class Plan {
 
                 dateValidity.put(DateFormatter.getStringDate(now), true);
                 pathMap.put(DateFormatter.getStringDate(now), pathListCopy);
-                count++;
+
             }
+        }
+    }
+
+    /**
+     * For Student Plan
+     */
+    public Plan(String ID,List<Path> pathList, double cost, List<DayOfWeek> weekDays){
+        this.ID = ID;
+        this.cost = cost;
+        this.dateValidity = new HashMap<>();
+        this.pathMap = new HashMap<>();
+        this.purchaseTimeStamp = LocalDateTime.now();
+        this.weekDays = weekDays;
+        this.repeatCount = 28;
+
+
+        LocalDateTime now = LocalDateTime.now();
+
+        for(int count = 0; count < repeatCount; count++){
+            now = now.plusDays(1);
+
+            if(weekDays.contains(DayOfWeek.from(now))) {
+                List<Path> pathListCopy = new ArrayList<>();
+                for (Path path : pathList)
+                    pathListCopy.add(new Path(path));
+
+                dateValidity.put(DateFormatter.getStringDate(now), true);
+                pathMap.put(DateFormatter.getStringDate(now), pathListCopy);
+
+            }
+        }
+    }
+
+    /**
+     * For Monthly_Plan
+     */
+    public Plan(String ID,List<Path> pathList, double cost){
+        this.ID = ID;
+        this.cost = cost;
+        this.dateValidity = new HashMap<>();
+        this.pathMap = new HashMap<>();
+        this.purchaseTimeStamp = LocalDateTime.now();
+        this.weekDays = Arrays.asList(DayOfWeek.values());
+        this.repeatCount = 28;
+
+
+        LocalDateTime now = LocalDateTime.now();
+
+        for(int count = 0; count < repeatCount; count++) {
+            now = now.plusDays(1);
+            List<Path> pathListCopy = new ArrayList<>();
+            for (Path path : pathList)
+                pathListCopy.add(new Path(path));
+
+            dateValidity.put(DateFormatter.getStringDate(now), true);
+            pathMap.put(DateFormatter.getStringDate(now), pathListCopy);
         }
     }
 

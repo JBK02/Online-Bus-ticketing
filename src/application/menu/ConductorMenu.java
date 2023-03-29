@@ -1,11 +1,9 @@
 package application.menu;
 
 import application.model.ConductorDBManager;
-import application.model.Ticket;
+import application.model.Tickets.Ticket;
 import application.utilities.Colors;
-import application.Enum.ConductorMenu.ConductorMenuOptions;
-import application.Enum.UserType;
-import application.Enum.UserLoginOptions;
+import application.Enum.conductorMenu.ConductorMenuOptions;
 
 public class ConductorMenu implements Menu{
 

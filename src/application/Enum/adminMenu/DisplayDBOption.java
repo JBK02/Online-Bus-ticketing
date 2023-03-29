@@ -1,4 +1,4 @@
-package application.Enum.AdminMenu;
+package application.Enum.adminMenu;
 
 public enum DisplayDBOption {
     LIST_BUS("List available buses"),

@@ -3,6 +3,7 @@ package application.dataBase;
 import application.Enum.*;
 import application.bankAPI.Bank;
 import application.model.*;
+import application.model.Tickets.Ticket;
 import application.utilities.DateFormatter;
 import org.jetbrains.annotations.NotNull;
 
@@ -28,13 +29,16 @@ public class ClientService {
         double cancellationAmount;
 
         if(DataBase.ticketMap.containsKey(ticketID)){
+
             if(DataBase.bankTransactionHistory.containsKey(ticketID)){
+
                 Transaction<Long> transaction = DataBase.bankTransactionHistory.get(ticketID);
                 cancellationAmount = transaction.amount * (DataBase.cancellationFeePercentage/100);
                 Bank.getInstance().moneyTransfer(dataBaseManager.getAdminAccountNumber(), transaction.payee, cancellationAmount, dataBaseManager.getPin());
                 DataBase.bankTransactionHistory.put("C-" + ticketID,new Transaction<>(ticketID,transaction.recipient, transaction.payee, cancellationAmount));
 
             }else if(DataBase.EWalletTransactionHistory.containsKey(ticketID)){
+
                 Transaction<String> transaction = DataBase.EWalletTransactionHistory.get(ticketID);
                 cancellationAmount = transaction.amount * (DataBase.cancellationFeePercentage/100);
                 EWalletProvider.getInstance().addCredit(cancellationAmount,transaction.payee, dataBaseManager.getAdminAccountNumber(), dataBaseManager.getPin());
@@ -69,6 +73,8 @@ public class ClientService {
                 pathList = dataBaseManager.getPlan(ID).pathMap.get(DateFormatter.getCurrentDate());
 
             if (pathList.size() == 1) {
+                if(pathList.get(0).busType.compareTo(bus.busType) >= 0)
+                    return false;
                 nextLocation = pathList.get(0).destination;
             } else {
                 int count = 0;
@@ -108,6 +114,7 @@ public class ClientService {
 
         TransactionMessages returnState;
 
+        //For Ticket
         if(DataBase.unPaidTickets.containsKey(id)) {
             returnState = switch (paymentMethod) {
                 case BANK_TRANSFER ->
@@ -121,7 +128,9 @@ public class ClientService {
                     client.validTickets.put(id, ticket);
             }else DataBase.unPaidTickets.remove(id);
 
-        }else if(DataBase.unPaidPlan.containsKey(id)){
+        }
+        else // For Plan
+            if(DataBase.unPaidPlan.containsKey(id)){
             returnState = switch (paymentMethod) {
                 case BANK_TRANSFER ->
                         Bank.getInstance().moneyTransfer(client.getBankAccountNumber(), dataBaseManager.getAdminAccountNumber(), dataBaseManager.getPlan(id).cost);

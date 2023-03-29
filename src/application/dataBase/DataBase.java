@@ -5,7 +5,7 @@ import application.model.Bus;
 import application.model.Client;
 import application.model.Conductor;
 import application.model.Plan;
-import application.model.Ticket;
+import application.model.Tickets.Ticket;
 import application.model.Transaction;
 
 import java.util.*;

@@ -1,4 +1,4 @@
-package application.Enum.AdminMenu;
+package application.Enum.adminMenu;
 
 public enum AdminMenuOption {
     UPDATE_DB("Update DB"),

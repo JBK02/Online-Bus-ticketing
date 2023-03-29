@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class EWalletProvider {
 
-    final Map<String, EWallet> accountList = new HashMap<>();
+    private final Map<String, EWallet> accountList = new HashMap<>();
 
     private static EWalletProvider instance = null;
     private final long adminAccountNumber;

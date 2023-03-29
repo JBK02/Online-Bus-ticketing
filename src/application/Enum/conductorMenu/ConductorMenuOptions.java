@@ -1,4 +1,4 @@
-package application.Enum.ConductorMenu;
+package application.Enum.conductorMenu;
 
 public enum ConductorMenuOptions {
     VIEW_PROFILE("View profile"),

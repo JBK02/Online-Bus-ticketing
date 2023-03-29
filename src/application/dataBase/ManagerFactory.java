@@ -10,9 +10,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.security.NoSuchAlgorithmException;
 
-public final class UserFactory {
+public final class ManagerFactory {
 
-    private UserFactory(){
+    private ManagerFactory(){
 
     }
 

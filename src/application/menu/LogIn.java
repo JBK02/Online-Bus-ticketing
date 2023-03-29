@@ -3,13 +3,14 @@ package application.menu;
 import application.Enum.UserLoginOptions;
 import application.dataBase.ClientService;
 import application.model.AdminDBManager;
-import application.dataBase.UserFactory;
+import application.dataBase.ManagerFactory;
 import application.model.ClientDBManager;
 import application.model.ConductorDBManager;
 import application.utilities.Colors;
 import application.Enum.Gender;
 import application.Enum.UserType;
 import application.utilities.InputValidator;
+import org.jetbrains.annotations.NotNull;
 
 import java.security.NoSuchAlgorithmException;
 
@@ -32,7 +33,7 @@ class LogIn {
                 return;
 
             try {
-                adminManager = UserFactory.getAdminDBManager(userName, password);
+                adminManager = ManagerFactory.getAdminDBManager(userName, password);
                 if (adminManager == null) {
                     System.out.println(Colors.formatRed("Invalid Credentials"));
                 } else {
@@ -85,8 +86,8 @@ class LogIn {
                 return;
 
             try {
-                clientManager = UserFactory.getClientDBManager(emailID,password);
-                clientServiceManager = UserFactory.getClientService(emailID,password);
+                clientManager = ManagerFactory.getClientDBManager(emailID,password);
+                clientServiceManager = ManagerFactory.getClientService(emailID,password);
                 if(clientManager == null || clientServiceManager == null){
                     System.out.println(Colors.formatRed("Invalid Credentials"));
                 }
@@ -121,7 +122,7 @@ class LogIn {
                 return;
 
             try {
-                conductor = UserFactory.getConductorDBManager(emailID,password);
+                conductor = ManagerFactory.getConductorDBManager(emailID,password);
                 if(conductor == null){
                     System.out.println(Colors.formatRed("Invalid Credentials"));
                 }
@@ -137,7 +138,7 @@ class LogIn {
         }
     }
 
-    static void userSignUp(UserType user){
+    static void userSignUp(@NotNull UserType user){
         Display.printTitle(user.name() + " Signup Page");
 
 
@@ -150,7 +151,7 @@ class LogIn {
             emailID = InputValidator.getEmail();
             if(emailID.equalsIgnoreCase("Q"))
                 return;
-            if(UserFactory.isUserExist(emailID, user)){
+            if(ManagerFactory.isUserExist(emailID, user)){
                 System.out.println(Colors.formatRed("Email-ID already exist."));
                 continue;
             }
@@ -180,7 +181,7 @@ class LogIn {
                 return;
         } while (!password.equals(reEnteredPassword));
 
-        UserFactory.createUserAccount(user,userName,emailID,DOB,GENDER,password);
+        ManagerFactory.createUserAccount(user,userName,emailID,DOB,GENDER,password);
         System.out.println(Colors.formatPurple("Signup successfully completed"));
     }
 

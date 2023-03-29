@@ -1,4 +1,4 @@
-package application.Enum.ClientMenu;
+package application.Enum.clientMenu;
 
 public enum ClientMenuOption {
     CHANGE_CURRENT_LOCATION("Change Current Location"),

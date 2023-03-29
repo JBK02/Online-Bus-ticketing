@@ -8,18 +8,18 @@ import java.time.format.DateTimeFormatter;
 
 public class DateFormatter {
 
+    static DateTimeFormatter pattern = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
     public static String getCurrentDate() {
 
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDateTime now = LocalDateTime.now();
 
-        return dtf.format(now);
+        return pattern.format(now);
     }
 
     public static String getStringDate(LocalDateTime date){
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        return dtf.format(date);
+        return pattern.format(date);
     }
 
     public static boolean isDateValid(String date)

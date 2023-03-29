@@ -27,7 +27,7 @@ public class Bus {
 
     @Override
     public String toString() {
-        //System.out.println("\n Registration number  RouteCode   ConductorDBManager ID         Start Time    End Time     Frequency\n");
+        //System.out.println("\n Registration number  RouteCode   Conductor ID         Start Time    End Time     Frequency\n");
         return String.format("   %-13s\t\t%-5s\t\t%-20s %s\t\t  %s\t\t\t %d",REGISTRATION_NUMBER,(routeCode != null)? routeCode:"null", (conductorUser != null)? conductorUser.name : "null", startTime, endTime,halfTripTime);
     }
 

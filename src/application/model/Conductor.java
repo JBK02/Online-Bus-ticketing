@@ -1,6 +1,7 @@
 package application.model;
 
 import application.Enum.Gender;
+import application.model.Tickets.Ticket;
 
 import java.util.ArrayList;
 import java.util.List;

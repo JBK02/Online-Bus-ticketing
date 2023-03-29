@@ -66,7 +66,7 @@ public final class ValueInitializer {
         DataBase.cancellationFeePercentage = 5;
 
         CredentialManager.addClientCredential("Admin", "Admin123@", UserType.ADMIN);
-        UserFactory.createUserAccount(UserType.CLIENT, "Bala", "bala@gmail.com", "02/02/2001", Gender.MALE, "Bala123@");
+        ManagerFactory.createUserAccount(UserType.CLIENT, "Bala", "bala@gmail.com", "02/02/2001", Gender.MALE, "Bala123@");
 
     }
 }

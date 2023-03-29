@@ -103,10 +103,10 @@ public class Bank{
  */
 class BankClient {
 
-    private String emailID;
+    private final String emailID;
     private final Long accountNumber;
     private double savingAmount = 0;
-    private int pin;
+    private final int pin;
 
     BankClient(String emailID, Long accountNumber, int pin) {
         this.emailID = emailID;

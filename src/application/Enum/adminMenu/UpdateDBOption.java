@@ -1,4 +1,4 @@
-package application.Enum.AdminMenu;
+package application.Enum.adminMenu;
 
 public enum UpdateDBOption {
     ADD_ROUTE("Add new route"),
