@@ -1,0 +1,326 @@
+@startuml
+class application.server.dataBase.DefaultValueInitializer {
++ {static} void initialize()
+}
+class application.server.dataBase.ClientDB {
+- {static} ClientDB instance
+- Map<String,ClientUser> clientList
+- <<Create>> ClientDB()
+~ {static} ClientDB getInstance()
+~ Map<String,ClientUser> getClientList()
+}
+class application.menu.ConductorLoginMenu {
++ void Start()
+- void logIn()
+- void conductorMenu(ConductorData)
+- void viewProfile(ConductorData)
+}
+class application.server.dataBase.TicketDBManager {
+~ TicketDB ticketDB
+~ String addTicket(String,String,String,String,int)
+}
+class application.server.dataBase.MainServer {
++ {static} Admin getAdmin(String,String)
++ {static} Client getClient(String,String)
++ {static} ConductorData getConductor(String,String)
++ {static} void addConductor(String,String,String)
+}
+interface application.server.model.Client {
+~ ClientUser getDetails()
+~ long getPaymentID(String)
+~ int getTicketCost(String,String,String)
+~ List<String> getStops(String)
++ Set<String> getAllStops()
++ Set<String> getAllStopsWith(String)
+~ String findBusRouteCode(String)
+~ Set<String> findRoutesWith(String,String)
+}
+class application.server.dataBase.ConductorDB {
+- {static} ConductorDB instance
+~ Map<String,ConductorUser> conductorUserList
+~ Set<String> availableConductors
++ <<Create>> ConductorDB()
+~ {static} ConductorDB getInstance()
+~ Map<String,ConductorUser> getConductorUserList()
+~ Set<String> getAvailableConductors()
+}
+class application.server.dataBase.CredentialManager {
+~ {static} CredentialDB credentialDB
+~ {static} boolean validateClientCredential(String,String,int)
+~ {static} boolean addClientCredential(String,String,int)
+- {static} Map<String,String> getUserDB(int)
+- {static} String getPasswordDigest(String)
+}
+class application.server.model.Tickets.Ticket {
++ String ID
++ String userName
++ String emailID
+- String busRegistrationNumber
++ LocalDateTime purchaseTimeStamp
++ String source
++ String destination
++ int cost
+- boolean validity
++ <<Create>> Ticket(String,String,String,LocalDateTime,String,String,int)
++ String getBusRegistrationNumber()
++ boolean isValidity()
++ void setBusRegistrationNumber(String)
++ void changeValidity()
+}
+interface application.menu.Menu {
+~ void Start()
+}
+interface application.server.model.Conductor {
+~ void updatedTicket(String)
+}
+class application.server.model.ConductorData {
++ ConductorUser user
++ Conductor server
++ <<Create>> ConductorData(ConductorUser,Conductor)
+}
+class application.menu.ClientLoginMenu {
+}
+class application.server.dataBase.CredentialDB {
+- {static} CredentialDB instance
+- Map<String,String> adminCredentials
+- Map<String,String> clientCredentials
+- Map<String,String> conductorCredentials
+- <<Create>> CredentialDB()
+~ {static} CredentialDB getInstance()
+~ Map<String,String> getAdminCredentials()
+~ Map<String,String> getClientCredentials()
+~ Map<String,String> getConductorCredentials()
+}
+class application.server.dataBase.ConductorDBManager {
+- Map<String,ConductorUser> conductorUsers
+- Set<String> availableConductors
+~ <<Create>> ConductorDBManager()
+~ void addConductor(String,String)
+~ void assignConductor(String,String)
+~ void freeConductor(String)
+~ void generateRandomConductor()
+~ ConductorUser getConductor(String)
+~ ConductorUser getAvailableConductor()
+~ Set<String> getAvailableConductors()
+}
+interface application.server.model.Admin {
+~ boolean addRoute(String,LinkedHashMap<String,Integer>)
+~ boolean addStop(String,String,int,int)
+~ boolean addBus(String,String)
+~ boolean removeRoute(String)
+~ boolean removeStop(String,String)
+~ boolean removeBus(String)
+~ void setPrice(int)
+~ Set<String> getAvailableBusList()
+~ Set<String> getAllBusList()
++ Set<String> getUnavailableBusList()
+~ Set<String> getRoutesCodes()
+~ Map<String,Integer> getRoute(String)
+~ Set<String> getAvailableConductor()
+~ boolean changeBusRoute(String,String)
+~ boolean changeConductor(String,String)
+~ String findBusRouteCode(String)
+~ int getPrice()
+}
+class application.server.model.Buses.Bus {
++ String registrationNumber
++ String routeCode
++ ConductorUser conductorUser
++ <<Create>> Bus(String,String,ConductorUser)
+}
+class application.server.model.ClientUser {
+- String name
+- String emailID
+- List<Ticket> ticketHistory
+- List<Ticket> validTickets
++ <<Create>> ClientUser(String,String,List<Ticket>)
++ String getName()
++ void setName(String)
++ String getEmailIDID()
++ List<Ticket> getTicketHistory()
++ List<Ticket> getValidTickets()
+}
+class application.utilities.Validator {
++ {static} String ALPHABETS
++ {static} String ALPHA_NUMERIC
++ {static} String NUMBERS
++ {static} String NAME
++ {static} String VEHICLE_REG_NUM
++ {static} String PASSWORD
+- {static} String EMAIL
+- {static} Scanner scanner
++ {static} String getAlphabet(String)
++ {static} String getAlphabet()
++ {static} int getNumber(String,int,int)
++ {static} int getNumber(String)
++ {static} int getNumber()
++ {static} String getAlphaNumeric(String)
++ {static} String getAlphaNumeric()
++ {static} String getName(String,int)
++ {static} String getName()
++ {static} String getVehicleRegNum()
++ {static} String getPassword()
++ {static} String getEmail()
+}
+class application.server.dataBase.AdminManager {
+- {static} BusDBManager instance
+- BusDB database
+- Map<String,Bus> unavailableBus
+- ConductorDBManager conductorDBManager
+- <<Create>> BusDBManager()
+~ {static} BusDBManager getInstance()
++ int getPrice()
++ void setPrice(int)
++ boolean addRoute(String,LinkedHashMap<String,Integer>)
++ boolean removeRoute(String)
++ boolean addStop(String,String,int,int)
++ boolean removeStop(String,String)
++ boolean addBus(String,String)
++ boolean removeBus(String)
++ boolean changeConductor(String,String)
++ Set<String> getAvailableBusList()
++ Set<String> getAllBusList()
++ Set<String> getUnavailableBusList()
++ Set<String> getRoutesCodes()
++ Map<String,Integer> getRoute(String)
++ List<String> getStops(String)
++ Set<String> getAvailableConductor()
++ boolean changeBusRoute(String,String)
++ String findBusRouteCode(String)
++ void updatedTicket(String)
+}
+class application.menu.LogIn {
+~ {static} Admin accessAdmin()
+~ {static} ClientUser clientSignUp()
+~ {static} ConductorData conductorLogin()
+~ {static} void conductorSignIn()
+}
+class application.server.dataBase.ClientDBManager {
+- Map<String,ClientUser> clientList
+- BusDBManager manager
+- String clientEmailID
+~ <<Create>> ClientDBManager(String)
+~ ClientUser getClientInfo(String)
++ ClientUser getDetails()
++ long getPaymentID(String)
++ Set<String> findRoutesWith(String,String)
++ int getTicketCost(String,String,String)
++ List<String> getStops(String)
++ Set<String> getAllStops()
++ Set<String> getAllStopsWith(String)
++ void bookTicket(String,String)
++ String findBusRouteCode(String)
+}
+class application.Application {
++ void start()
+}
+class application.menu.MainMenu {
+- String title
+- String[] menuList
++ <<Create>> MainMenu()
++ void Start()
+}
+class application.server.dataBase.BusDB {
+- {static} BusDB instance
+~ Map<String,LinkedHashMap<String,Integer>> routes
+~ Map<String,Bus> busRoutes
+~ int price
+- <<Create>> BusDB()
+~ {static} BusDB getInstance()
+}
+class application.server.dataBase.TicketDB {
+~ Map<String,Ticket> ticketMap
+- {static} TicketDB instance
+- <<Create>> TicketDB()
++ {static} TicketDB getInstance()
+}
+class application.server.model.ConductorUser {
+- String name
+- String emailID
+- String allottedBus
++ <<Create>> ConductorUser(String,String,String)
++ String getName()
++ String getID()
++ String getAllottedBus()
++ void allotBus(String)
+~ void scanClientTicket(String)
+~ void updateDBManager()
+}
+class application.menu.Display {
++ {static} int getMenuOption(String,String[])
++ {static} int getOption(String,Set<String>,String[])
++ {static} int getOption(String,Set<String>)
++ {static} void printTitle(String)
++ {static} void printInstruction(String)
++ {static} void printReturnState(boolean)
+}
+class application.utilities.Colors {
++ {static} String ANSI_RESET
++ {static} String ANSI_BLACK
++ {static} String ANSI_RED
++ {static} String ANSI_GREEN
++ {static} String ANSI_YELLOW
++ {static} String ANSI_BLUE
++ {static} String ANSI_PURPLE
++ {static} String ANSI_CYAN
++ {static} String ANSI_WHITE
+}
+class application.bankAPI.Bank {
+- Hashtable<Long,Bank_Client> clientList
+- {static} Bank instance
+- <<Create>> Bank()
++ {static} Bank getInstance()
++ long createAccount(String)
++ String moneyTransfer(Long,Long,long)
+}
+class application.bankAPI.Bank_Client {
+- String name
+- Long accountNumber
+- long savingAmount
+~ <<Create>> Bank_Client(String,Long)
++ boolean deposit(long)
++ boolean widthDraw(long)
+}
+class application.menu.AdminMenu {
+~ Admin admin
+~ AdminMenuHelper helper
++ <<Create>> AdminMenu(Admin)
++ void Start()
+- void updateDB()
+- void displayDB()
+- void listBuses()
+- void listRoutes()
+}
+class application.menu.DBUpdater {
+~ Admin admin
+~ AdminMenuHelper helper
++ <<Create>> DBUpdater(Admin,AdminMenuHelper)
+~ void addRoute()
+~ void addStop()
+~ void addBus()
+~ void removeRoute()
+~ void removeBus()
+~ void removeStop()
+~ void changePrice()
+~ void changeBusRoute()
+~ void changeConductor()
+}
+class application.menu.AdminMenuHelper {
+~ Admin admin
++ <<Create>> AdminMenuHelper(Admin)
+~ String getRoute(boolean)
+~ String getRoute()
+~ String getStop(String)
+~ String getStop()
+~ int getDistance(int)
+~ int getDistance()
+}
+
+
+application.menu.Menu <|.. application.menu.ConductorLoginMenu
+application.server.model.Admin <|.. application.server.dataBase.AdminManager
+application.server.model.Conductor <|.. application.server.dataBase.AdminManager
+application.server.model.Client <|.. application.server.dataBase.ClientDBManager
+application.menu.Menu <|.. application.menu.MainMenu
+application.menu.Menu <|.. application.menu.AdminMenu
+@enduml

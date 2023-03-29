@@ -1,0 +1,8 @@
+1.Client buys ticket to travel from source to destination
+2.Then he can board any bus to reach the destination from source
+3.A ticket will be valid for only one day
+4.Once ticket has be bought by clientManager it will be added to a queue in DB
+1. Conductor scans ticket from clientManager app, then sends acknowledgment to adminManager
+2. Admin then makes the ticket invalid for future, and stores it in history
+
+//TODO #Doubt Does plan be a two way trip or one way trip
