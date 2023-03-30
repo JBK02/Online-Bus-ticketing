@@ -83,7 +83,10 @@ public class ClientService {
                         break;
                     count++;
                 }
-                if (count >= pathList.size()) {
+                if(pathList.get(count).busType.compareTo(bus.busType) >= 0)
+                    return false;
+
+                if (count >= pathList.size() - 1) {
                     nextLocation = pathList.get(pathList.size() - 1).destination;
                     if(DataBase.ticketMap.containsKey(ID))
                         dataBaseManager.getTicket(ID).changeValidity();

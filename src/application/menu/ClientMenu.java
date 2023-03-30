@@ -341,9 +341,16 @@ public class ClientMenu implements Menu {
 
         Set<String> busStops = new TreeSet<>(clientDBManager.getAllStops());
 
-        int index = Display.getOption("bus stops",busStops);
-        if(index < 0)
-            return;
+        int index;
+        do{
+            index = Display.getOption("bus stops",busStops);
+
+            if(index < 0){
+                System.out.println(Colors.formatRed("Enter valid stop location"));
+                continue;
+            }
+            break;
+        }while (true);
 
         String currentStop = new ArrayList<>(busStops).get(index);
 
@@ -628,7 +635,11 @@ public class ClientMenu implements Menu {
 
             BusType busPreference = BusType.values()[index];
 
-            paths.add(new Path(clientDBManager.findRoutesWith(pathList.get(count),pathList.get(count+1)),pathList.get(count),pathList.get(count+1), clientDBManager.getDistance(pathList.get(count),pathList.get(count+1),availableRoutes.get(0)),busPreference));
+            String source = pathList.get(count);
+            String destination = pathList.get(count + 1);
+            List<String> routeCode = clientDBManager.findRoutesWith(source,destination);
+
+            paths.add(new Path(routeCode,source,destination, clientDBManager.getDistance(source,destination,routeCode.get(0)),busPreference));
 
             System.out.println("Do you want to continue adding?");
             flag = InputValidator.getYN();

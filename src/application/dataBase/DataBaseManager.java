@@ -369,7 +369,7 @@ class DataBaseManager implements AdminDBManager, ClientDBManager, ConductorDBMan
         double totalCost = 0;
         for(Path path: pathList){
             double cost = path.distance * getPrice(path.busType);
-            totalCost += (cost < DataBase.minimumBusFair.get(path.busType))? DataBase.minimumBusFair.get(path.busType):cost;
+            totalCost += (cost <= DataBase.minimumBusFair.get(path.busType)) ? DataBase.minimumBusFair.get(path.busType) : cost;
         }
 
         if(ticketType.equals(TicketType.TWO_WAY))
@@ -638,7 +638,7 @@ class DataBaseManager implements AdminDBManager, ClientDBManager, ConductorDBMan
             DataBase.ticketMap.put(ticketID,ticket);
 
             if(paymentMethod.equals(PaymentMethod.E_WALLET)){
-                DataBase.EWalletTransactionHistory.put(ticketID,new Transaction<>(ticketID,emailID,"AdminDBManager@gmail.com",DataBase.ticketMap.get(ticketID).cost));
+                DataBase.EWalletTransactionHistory.put(ticketID,new Transaction<>(ticketID,emailID,"Admin@gmail.com",DataBase.ticketMap.get(ticketID).cost));
             }
             else if(paymentMethod.equals(PaymentMethod.BANK_TRANSFER)){
                 DataBase.bankTransactionHistory.put(ticketID,new Transaction<>(ticketID,payeeAccountNumber, getAdminAccountNumber(), DataBase.ticketMap.get(ticketID).cost));
@@ -710,7 +710,7 @@ class DataBaseManager implements AdminDBManager, ClientDBManager, ConductorDBMan
             DataBase.planMap.put(planID,plan);
 
             if(paymentMethod.equals(PaymentMethod.E_WALLET)){
-                DataBase.EWalletTransactionHistory.put(planID,new Transaction<>(planID,emailID,"AdminDBManager@gmail.com",DataBase.planMap.get(planID).cost));
+                DataBase.EWalletTransactionHistory.put(planID,new Transaction<>(planID,emailID,"Admin@gmail.com",DataBase.planMap.get(planID).cost));
             }
             else if(paymentMethod.equals(PaymentMethod.BANK_TRANSFER)){
                 DataBase.bankTransactionHistory.put(planID,new Transaction<>(planID,payeeAccountNumber, adminAccountNumber, DataBase.planMap.get(planID).cost));

@@ -31,6 +31,7 @@ public class Path {
         this.destination = path.destination;
         this.distance = path.distance;
         this.busType = path.busType;
+        this.busRegistrationNumber = path.busRegistrationNumber;
     }
 
     public boolean isVisited() {
