@@ -845,8 +845,7 @@ class AccountMenuOption implements Menu{
     private void viewProfile(){
         Client profile = clientDBManager.getProfile();
         Display.printTitle("Profile");
-        System.out.println();
-        System.out.println("Username     : " + profile.name);
+        System.out.println("\nUsername     : " + profile.name);
         System.out.println("Email-ID     : " + profile.EMAIL_ID);
         System.out.println("DOB          : " + profile.DOB);
         System.out.println("Gender       : " + profile.GENDER);

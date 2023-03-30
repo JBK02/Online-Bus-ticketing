@@ -56,8 +56,8 @@ public class ClientService {
     }
 
     public boolean boardBus(String busRegistrationNumber, String ID){
-        Conductor conductor = dataBaseManager.getBus(busRegistrationNumber).conductorUser;
-        if(conductor == null)
+        Bus bus = dataBaseManager.getBus(busRegistrationNumber);
+        if(bus.conductorUser == null)
             return false;
 
         boolean returnState =  dataBaseManager.scanTicket(busRegistrationNumber,ID);
@@ -66,9 +66,10 @@ public class ClientService {
         if(returnState) {
             List<Path> pathList;
             if(DataBase.ticketMap.containsKey(ID)) {
-                if (DataBase.ticketMap.get(ID).pathList == null)
+                Ticket ticket = DataBase.ticketMap.get(ID);
+                if (ticket.pathList == null)
                     return true;
-                pathList = dataBaseManager.getTicket(ID).pathList;
+                pathList = ticket.pathList;
             }else
                 pathList = dataBaseManager.getPlan(ID).pathMap.get(DateFormatter.getCurrentDate());
 

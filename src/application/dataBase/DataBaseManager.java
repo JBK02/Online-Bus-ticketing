@@ -604,18 +604,9 @@ class DataBaseManager implements AdminDBManager, ClientDBManager, ConductorDBMan
             LocalDateTime purchaseTime = LocalDateTime.now();
             String id = String.format("%d%d%d%d%d%d%d", purchaseTime.getHour(), purchaseTime.getMinute(), purchaseTime.getSecond(), purchaseTime.getDayOfMonth(), purchaseTime.getMonth().getValue(), purchaseTime.getYear(), passengerList.get(0).Name.hashCode()%1000);
             switch (ticketType){
-                case ONE_DAY -> DataBase.unPaidTickets.put(id,new Ticket(id,passengerList,purchaseTime,null, cost));
-                case ONE_WAY -> DataBase.unPaidTickets.put(id, new Ticket(id,passengerList,purchaseTime,pathList,cost));
-                case TWO_WAY -> {
-                    List<Path> pathListCopy = new ArrayList<>(pathList);
-                    for(Path path: pathList){
-                        pathListCopy.add(new Path(path.routeCodes,path.destination,path.source,path.distance,path.busType));
-                    }
-                    List<Path> reversedList = new ArrayList<>(pathList);
-                    Collections.reverse(reversedList);
-                    pathListCopy.addAll(reversedList);
-                    DataBase.unPaidTickets.put(id,new Ticket(id,passengerList,purchaseTime,pathListCopy,cost));
-                }
+                case ONE_DAY -> DataBase.unPaidTickets.put( id, new OneDayTicket( id, passengerList, purchaseTime, cost));
+                case ONE_WAY -> DataBase.unPaidTickets.put( id, new OneWayTicket( id, passengerList, purchaseTime, pathList, cost));
+                case TWO_WAY -> DataBase.unPaidTickets.put( id, new TwoWayTicket( id, passengerList, purchaseTime, pathList, cost));
             }
 
             return id;
@@ -644,7 +635,8 @@ class DataBaseManager implements AdminDBManager, ClientDBManager, ConductorDBMan
                 DataBase.bankTransactionHistory.put(ticketID,new Transaction<>(ticketID,payeeAccountNumber, getAdminAccountNumber(), DataBase.ticketMap.get(ticketID).cost));
             }
             return ticket;
-        }else return null;
+        }else
+            return null;
 
     }
 
@@ -679,15 +671,14 @@ class DataBaseManager implements AdminDBManager, ClientDBManager, ConductorDBMan
             String id = String.format("%d%d%d%d%d%d%d", purchaseTime.getHour(), purchaseTime.getMinute(), purchaseTime.getSecond(), purchaseTime.getDayOfMonth(), purchaseTime.getMonth().getValue(), purchaseTime.getYear(), emailID.hashCode()%1000);
             switch (planType){
                 case CUSTOM_PLAN -> DataBase.unPaidPlan.put(id,new Plan(id,pathList, cost,weakDays, repeatCount));
-                case MONTHLY_PLAN -> DataBase.unPaidPlan.put(id, new Plan(id,pathList,cost, Arrays.asList(DayOfWeek.values()), 28));
+                case MONTHLY_PLAN -> DataBase.unPaidPlan.put(id, new Plan(id,pathList,cost));
                 case STUDENT_PLAN -> DataBase.unPaidPlan.put(id,new Plan(id,pathList,cost, Arrays.asList(
                         DayOfWeek.MONDAY,
                         DayOfWeek.TUESDAY,
                         DayOfWeek.WEDNESDAY,
                         DayOfWeek.THURSDAY,
                         DayOfWeek.FRIDAY,
-                        DayOfWeek.SATURDAY),
-                        28));
+                        DayOfWeek.SATURDAY )));
             }
 
             return id;
